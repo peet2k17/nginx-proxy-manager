@@ -8,7 +8,7 @@ ENV S6_FIX_ATTRS_HIDDEN=1
 RUN echo "fs.file-max = 65535" > /etc/sysctl.conf
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends --no-install-suggests -y \
+    && apt-get install -y \
         inetutils-ping \
         openssl \
         letsencrypt \
