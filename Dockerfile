@@ -1,4 +1,4 @@
-FROM jmccoy555/nginx:latest
+FROM nginxinc/docker-nginx:stable-alpine
 
 MAINTAINER Jamie Curnow <jc@jc21.com>
 LABEL maintainer="Jamie Curnow <jc@jc21.com>"
@@ -11,7 +11,7 @@ RUN apt-get update \
     && apt-get install -y \
         inetutils-ping \
         openssl \
-        certbot \
+        letsencrypt \
         curl \
         gnupg \
         build-essential \
