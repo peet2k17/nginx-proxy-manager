@@ -1,4 +1,4 @@
-FROM nginxinc/docker-nginx:stable-alpine
+FROM nginx:stable-alpine
 
 MAINTAINER Jamie Curnow <jc@jc21.com>
 LABEL maintainer="Jamie Curnow <jc@jc21.com>"
