@@ -1,4 +1,3 @@
-FROM nginx:stable
 FROM jc21/nginx-proxy-manager-base:latest
 
 MAINTAINER Jamie Curnow <jc@jc21.com>
@@ -10,24 +9,11 @@ RUN echo "fs.file-max = 65535" > /etc/sysctl.conf
 
 # Nginx, Node and required packages should already be installed from the base image
 
-RUN apt-get update \
-    && apt-get install -y \
-        inetutils-ping \
-        openssl \
-        letsencrypt \
-        curl \
-        gnupg \
-        build-essential \
-        apache2-utils
-
-# NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean \
-    && npm install -g gulp
-
 # root filesystem
 COPY rootfs /
+
+RUN curl -L -O https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh \
+  && API_KEY='08c8004fe92e1bdf215336758f879ae9' sh ./install.sh
 
 # s6 overlay
 RUN curl -L -o /tmp/s6-overlay-amd64.tar.gz "https://github.com/just-containers/s6-overlay/releases/download/v1.21.4.0/s6-overlay-amd64.tar.gz" \
