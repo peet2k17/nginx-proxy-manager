@@ -1,3 +1,4 @@
+FROM nginx:stable
 FROM jc21/nginx-proxy-manager-base:latest
 
 MAINTAINER Jamie Curnow <jc@jc21.com>
@@ -8,6 +9,22 @@ ENV S6_FIX_ATTRS_HIDDEN=1
 RUN echo "fs.file-max = 65535" > /etc/sysctl.conf
 
 # Nginx, Node and required packages should already be installed from the base image
+
+RUN apt-get update \
+    && apt-get install -y \
+        inetutils-ping \
+        openssl \
+        letsencrypt \
+        curl \
+        gnupg \
+        build-essential \
+        apache2-utils
+
+# NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && npm install -g gulp
 
 # root filesystem
 COPY rootfs /
