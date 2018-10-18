@@ -11,7 +11,7 @@ RUN apt-get update \
     && apt-get install -y \
         inetutils-ping \
         openssl \
-        letsencrypt \
+        certbot \
         curl \
         gnupg \
         build-essential \
