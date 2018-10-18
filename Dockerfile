@@ -1,4 +1,4 @@
-FROM jc21/nginx-proxy-manager-base:latest
+FROM jmccoy555/nginx:latest
 
 MAINTAINER Jamie Curnow <jc@jc21.com>
 LABEL maintainer="Jamie Curnow <jc@jc21.com>"
@@ -6,6 +6,22 @@ LABEL maintainer="Jamie Curnow <jc@jc21.com>"
 ENV SUPPRESS_NO_CONFIG_WARNING=1
 ENV S6_FIX_ATTRS_HIDDEN=1
 RUN echo "fs.file-max = 65535" > /etc/sysctl.conf
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends --no-install-suggests -y \
+        inetutils-ping \
+        openssl \
+        letsencrypt \
+        curl \
+        gnupg \
+        build-essential \
+        apache2-utils
+
+# NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && npm install -g gulp
 
 # Nginx, Node and required packages should already be installed from the base image
 
@@ -36,4 +52,3 @@ EXPOSE 443
 EXPOSE 9876
 
 HEALTHCHECK --interval=15s --timeout=3s CMD curl -f http://localhost:9876/health || exit 1
-
